@@ -32,9 +32,11 @@ To accommodate different levels of memory, we set N to be 3500, 27000, 379000, a
 Before any observation on the actual result, We can reasonably predict that serial code should have very little run time on both level 1 and level 2 cache, considering their fast memory accessing speed; and the threaded optimization should really kick in on level 3 cache and memory level, because that is when memory latency become a huge bottleneck for performance. The same aspect should also apply on different numbers of threads, when the data size is too small to effectively use threading, having more threads will cause more overhead, therefore drag the performance of threading. When data size is large enough, memory latency will outweigh the overhead of creating and maintaining threads. 
 
 It is indeed the case, when data is only occupying the L1 cache, having 20 threads isn’t really the best option. In fact, after observing table 2, we find that the execution time scales linearly with the number of threads. When having 100 threads, the run time is 21 times slower compared to having only 4 threads; 10 times slower compared to having 10 threads; 2 times slower compared to having 50 threads. Because of the linearity, the best option here is serialization, as P set to 1
+
 ![Table 2](https://github.com/FrankYufeiYang/Thread/blob/main/pictures/table2.jpg)
 
 When data size grows, especially when it reaches RAM level, we don’t see that linear relationship anymore. Instead, having too little threads is as worse as having too many threads in this situation. We can observe that easily from table 3. Notice the result when P is 20, 0.007909 seconds, from table 1. It indeed has the best performance among 5 results. Also notice that, having 4 threads and having 100 threads result in almost the same run time. Why? It is because 4 and 100 both have a scaling relationship of 5 with 20. With only 4 threads, the system has very few threads to spread the data, so that it is again having bad memory latency because each thread has to deal with too much data. With 100 threads, each thread doesn’t have so much data anymore, but instead, the system needs to use extra computing power to create so many threads and maintain data consistency.
+
 ![Table 3](https://github.com/FrankYufeiYang/Thread/blob/main/pictures/table3.jpg)
 
 ## Task 2:
