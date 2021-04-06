@@ -26,7 +26,7 @@ When calculating two floating-point numbers A and B, we don’t always get the s
 
 ### _B. Threading_
 Threading the code is actually very straightforward, first, we recognize each individual subroutine, and do the five-step for each subroutine. For example, part 1 has 3 subroutines, that is,  finding mean, finding sum, finding top values. On top of that, we need to address the issue when N is not a multiple of P. We solve it by adding a check at the end of each subroutine. 
-### _C. Scalability _
+### _C. Scalability_
 To accommodate different levels of memory, we set N to be 3500, 27000, 379000, and 1000000. Each N will occupy a level of cache. For example, when N is set to 27000, there will be 27000 long typed integers in the array, which is 216 KB in total. This takes most of the L2 cache. With that, P is also set to 5 different numbers, 4, 10, 20, 50, and 100. Having 4 threads is probably the situation we would encounter a lot in daily life, and having 20 threads should result in the best performance since our system has 20 cores. 
 
 Before any observation on the actual result, We can reasonably predict that serial code should have very little run time on both level 1 and level 2 cache, considering their fast memory accessing speed; and the threaded optimization should really kick in on level 3 cache and memory level, because that is when memory latency become a huge bottleneck for performance. The same aspect should also apply on different numbers of threads, when the data size is too small to effectively use threading, having more threads will cause more overhead, therefore drag the performance of threading. When data size is large enough, memory latency will outweigh the overhead of creating and maintaining threads. 
